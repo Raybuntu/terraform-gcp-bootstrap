@@ -18,6 +18,7 @@ resource "google_project" "infra_project" {
   name            = var.project_id
   project_id      = var.project_id
   billing_account = var.billing_account_id
+  deletion_policy = "DELETE"
 }
 
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_project_service
@@ -38,7 +39,9 @@ resource "google_project_service" "required_apis" {
   project = google_project.infra_project.project_id
   service = each.value
 
-  disable_on_destroy = false
+  disable_on_destroy           = false
+  disable_dependent_services   = true
+  depends_on = [google_project.infra_project]
 }
 
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_service_account
