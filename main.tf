@@ -60,6 +60,7 @@ resource "google_service_account" "deployment_account" {
 resource "google_compute_global_address" "lb_ip" {
   name    = "si-lb-ip"
   project = google_project.infra_project.project_id
+  depends_on = [google_project_service.required_apis]
 }
 
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/secret_manager_secret.html
@@ -71,6 +72,7 @@ resource "google_secret_manager_secret" "gh_connect_oauth" {
   replication {
     auto {}
   }
+  depends_on = [google_project_service.required_apis]
 }
 
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/secret_manager_secret_version
