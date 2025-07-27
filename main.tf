@@ -90,6 +90,7 @@ resource "google_storage_bucket" "tf_state" {
   storage_class               = "STANDARD"
   uniform_bucket_level_access = true
   project                     = google_project.infra_project.project_id
+  force_destroy               = true
 
   versioning {
     enabled = true
